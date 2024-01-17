@@ -1,0 +1,219 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  </head>
+  <body>
+    <div class="topnav">
+      <a  href="/" class="active">Home</a>
+      <a  href="/user-order">Users-Order</a>
+      
+    </div>
+
+    <div class="w3-container">
+      <h2>Cập Nhật Sản Phẩm</h2>
+      <div class="create-user-container">
+        <form
+          action="/update-product"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <fieldset>
+            <legend><b>Cập nhật sản phẩm vào database</b></legend>
+  
+            <div>
+              <input type="text" name="id" hidden value="<%=dataProduct.id %>" />
+            </div>
+            <div>
+              <label for="">Tên sản phẩm : </label>
+              <input type="text" name="tensp" value="<%=dataProduct.tensp %>" />
+            </div>
+            <div>
+              <label for="">Thể loại : </label>
+              <select name="loaisp" value="<%=dataProduct.loaisp %>">
+                <option <%= dataProduct.loaisp === 'áo dài' ? 'selected' : '' %>>áo dài</option>
+                <option <%= dataProduct.loaisp === 'áo thun' ? 'selected' : '' %>>áo thun</option>
+                <option <%= dataProduct.loaisp === 'áo vest' ? 'selected' : '' %>>áo vest</option>
+                <option <%= dataProduct.loaisp === 'quần dài' ? 'selected' : '' %>>quần dài</option>
+                <option <%= dataProduct.loaisp === 'quần jean' ? 'selected' : '' %>>quần jean</option>
+                <option <%= dataProduct.loaisp === 'quần short' ? 'selected' : '' %>>quần short</option>
+                <option <%= dataProduct.loaisp === 'quần tây' ? 'selected' : '' %>>quần tây</option>
+              </select>
+            </div>
+  
+            <div>
+              <label for="">Kích cỡ : </label>
+              <select name="kichco" id="hall" value="<%=dataProduct.kichco %>">
+                <option <%= dataProduct.kichco === 'S' ? 'selected' : '' %>>S</option>
+                <option <%= dataProduct.kichco === 'X' ? 'selected' : '' %>>X</option>
+                <option <%= dataProduct.kichco === 'XL' ? 'selected' : '' %>>XL</option>
+                <option <%= dataProduct.kichco === 'XXL' ? 'selected' : '' %>>XXL</option>
+              </select>
+            </div>
+            <div>
+              <label for="">Tên nhà sản xuất</label>
+              <select name="tenNSX" value="<%=dataProduct.tenNSX %>">
+                <option <%= dataProduct.tenNSX === 'zara' ? 'selected' : '' %>>zara</option>
+                <option <%= dataProduct.tenNSX === 'louis' ? 'selected' : '' %>>louis</option>
+                <option <%= dataProduct.tenNSX === 'fendi' ? 'selected' : '' %>>fendi</option>
+              </select>
+            </div>
+            <div>
+              <label for="">Số lượng thêm : </label>
+              <input
+                type="text"
+                name="soluong"
+                value="<%=dataProduct.soluong %>"
+              />
+            </div>
+            <div>
+              <label for="">Giá tiền : </label>
+              <input
+                type="text"
+                name="giatien"
+                value="<%=dataProduct.giatien %>"
+              />
+            </div>
+            <div>
+              <label for="">Chi tiết sản phẩm: </label>
+              <input type="text" name="chitietsanpham" value="<%=dataProduct.chitietsanpham %>"/>
+            </div>
+            <div>
+              <label for="">edit images: </label>
+              <input
+                type="file"
+                name="profile_pic"
+                value="<%=dataProduct.mota %>"
+              />
+            </div>
+           
+            <div>
+              <button type="submit" class="editButton">Save</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <label for="productId">Lọc theo giá tiền sản phẩm: </label>
+      <form action="/searchPrice200" method="get">
+        <label for="priceUnder200">Dưới 200k</label>
+        <input
+          type="radio"
+          id="priceUnder200"
+          name="price200"
+          value="200"
+          onchange="filterProductsByPrice(this.value)"
+        />
+        <button type="submit" class="editButton2">Tìm kiếm</button>
+      </form>
+      <form action="/searchPrice300" method="get">
+        <label for="priceUnder200">Dưới 300k</label>
+        <input
+          type="radio"
+          id="priceUnder300"
+          name="price300"
+          value="200"
+          onchange="filterProductsByPrice(this.value)"
+        />
+        <button type="submit" class="editButton2">Tìm kiếm</button>
+      </form>
+      <form action="/searchPrice500" method="get">
+        <label for="priceUnder200">Dưới 500k</label>
+        <input
+          type="radio"
+          id="priceUnder500"
+          name="price500"
+          value="200"
+          onchange="filterProductsByPrice(this.value)"
+        />
+        <button type="submit" class="editButton2">Tìm kiếm</button>
+      </form>
+
+      <form action="/Tim" enctype="multipart/form-data" method="POST">
+        <input type="text" placeholder="tìm id sản phẩm" name="timid" />
+        <input type="text" placeholder="tìm tên sản phẩm" name="timtensp" />
+
+        <input
+          list="Listsize"
+          class="input_Tim"
+          name="timsize"
+          placeholder="Tìm kiếm theo kích cỡ"
+        />
+        <datalist id="Listsize">
+          <option value="S"></option>
+          <option value="X"></option>
+          <option value="XL"></option>
+          <option value="XXL"></option>
+        </datalist>
+
+        <input
+          list="Listloaisp"
+          class="input_Tim"
+          name="timloaisp"
+          placeholder="Tìm kiếm theo Loại sản phẩm"
+        />
+        <datalist id="Listloaisp">
+          <option value="áo dài"></option>
+          <option value="Áo thun"></option>
+          <option value="Áo vest"></option>
+          <option value="Quần short"></option>
+        </datalist>
+        <button type="submit" class="editButton2">Tìm kiếm</button>
+      </form>
+      <table class="w3-table-all w3-hoverable">
+        <thead>
+          <tr class="w3-light-grey">
+            <th>id</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại sản phẩm</th>
+            <th>Tên nhà sản xuất</th>
+            <th>Số lượng</th>
+            <th>Kích Cỡ</th>
+            <th>Giá tiền</th>
+            <th>Mô tả</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i=0; i < dataproduct.length; i++) { %>
+          <tr>
+            <td><%= dataproduct[i].id %></td>
+            <td><%= dataproduct[i].tensp %></td>
+            <td><%= dataproduct[i].loaisp %></td>
+            <td><%= dataproduct[i].tenNSX %></td>
+            <td><%= dataproduct[i].soluong %></td>
+            <td><%= dataproduct[i].kichco %></td>
+            <td><%= dataproduct[i].giatien %></td>
+            <td><%= dataproduct[i].chitietsanpham %></td>
+            <td>
+              <img
+                src="/images/<%= dataproduct[i].mota %>"
+                alt=""
+                width="100px"
+                height="100px"
+              />
+            </td>
+
+            <td>
+              <form action="/editproduct/<%=dataproduct[i].id%>" method="get">
+                <button type="submit" class="editButton">edit</button>
+              </form>
+              <form action="/delete-product" method="post">
+                <input
+                  type="text"
+                  hidden
+                  value="<%=dataproduct[i].id%>"
+                  name="productId"
+                /><button type="submit" class="editButton">delete</button>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+   
+  </body>
+</html>
